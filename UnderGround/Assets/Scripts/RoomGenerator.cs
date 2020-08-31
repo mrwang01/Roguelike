@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RoomGenerator : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class RoomGenerator : MonoBehaviour
     public Transform generatorPoint;
     public float xoffset;
     public float yoffset;
+    public LayerMask roomLayer;
+
     public List<GameObject> rooms = new List<GameObject>();
 
     
@@ -32,16 +35,24 @@ public class RoomGenerator : MonoBehaviour
 
         ChangePointPos();
         }
+        rooms[0].GetComponent<SpriteRenderer>().color = startColor;
+        rooms[roomNumber-1].GetComponent<SpriteRenderer>().color = endColor;
+
         
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.anyKeyDown)
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            
+        }
     }
     public void ChangePointPos()
     {
+        do{
         direction = (Direction)Random.Range(0,4);
 
         switch(direction)
@@ -59,6 +70,8 @@ public class RoomGenerator : MonoBehaviour
                 generatorPoint.position += new Vector3(xoffset,0,0);
                 break;
         }
+        }while(Physics2D.OverlapCircle(generatorPoint.position,0.2f,roomLayer));
+
 
     }
 

@@ -201,7 +201,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 519420028}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -20}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -266,7 +266,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55e7ac0d79511483096420494d1d26b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: 0
+  direction: 2
   roomPrefab: {fileID: 4156468448706922907, guid: 855c6ccc17d404e8493a4432e5e3293d,
     type: 3}
   roomNumber: 10
@@ -275,6 +275,9 @@ MonoBehaviour:
   generatorPoint: {fileID: 1746680138}
   xoffset: 18
   yoffset: 9
+  roomLayer:
+    serializedVersion: 2
+    m_Bits: 256
   rooms: []
 --- !u!4 &2103096255
 Transform:
@@ -284,7 +287,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2103096253}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.7380299, y: 1.7501731, z: -11.84149}
+  m_LocalPosition: {x: -0.7380299, y: 1.7501731, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1746680138}
