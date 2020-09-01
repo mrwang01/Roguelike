@@ -12,10 +12,11 @@ public class RoomGenerator : MonoBehaviour
 
 
 
-    [Header("房間數量")]
+    [Header("房間資訊")]
     public GameObject roomPrefab;
     public int roomNumber;
     public Color startColor, endColor;
+    private GameObject endRooom;
 
     [Header("座標位置")]
     public Transform generatorPoint;
@@ -23,21 +24,35 @@ public class RoomGenerator : MonoBehaviour
     public float yoffset;
     public LayerMask roomLayer;
 
-    public List<GameObject> rooms = new List<GameObject>();
+    public List<Room> rooms = new List<Room>();
 
     
     void Start()
     {
         for (int i = 0; i < roomNumber; i++)
         {
-        rooms.Add(Instantiate(roomPrefab, generatorPoint.position, Quaternion.identity));
+        rooms.Add(Instantiate(roomPrefab, generatorPoint.position, Quaternion.identity).GetComponent<Room>());
         //改變 point 位置
 
         ChangePointPos();
         }
         rooms[0].GetComponent<SpriteRenderer>().color = startColor;
-        rooms[roomNumber-1].GetComponent<SpriteRenderer>().color = endColor;
+        
+        endRooom = rooms[0].gameObject;
+        
+        
+        //final room ?
 
+        foreach (var room in rooms)
+        {
+        //     if (room.transform.position.sqrMagnitude > endRooom.transform.position.sqrMagnitude)
+
+        //     {
+        //         endRooom = room.gameObject;
+        //     }    
+        SetupRoom(room , room.transform.position);        
+         }
+        endRooom.GetComponent<SpriteRenderer>().color = endColor;
         
     }
 
@@ -74,5 +89,14 @@ public class RoomGenerator : MonoBehaviour
 
 
     }
+    public void SetupRoom(Room newRoom, Vector3 roomPosition )
+    {
+        newRoom.roomUp = Physics2D.OverlapCircle(roomPosition + new Vector3(0,yoffset,0),0.2f,roomLayer);
+        newRoom.roomDown = Physics2D.OverlapCircle(roomPosition + new Vector3(0,-yoffset,0),0.2f,roomLayer);
+        newRoom.roomLeft = Physics2D.OverlapCircle(roomPosition + new Vector3(-xoffset,0,0),0.2f,roomLayer);
+        newRoom.roomRight = Physics2D.OverlapCircle(roomPosition + new Vector3(xoffset,0,0),0.2f,roomLayer);
+
+    }
+    
 
 }
