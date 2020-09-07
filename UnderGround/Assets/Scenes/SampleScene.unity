@@ -160,7 +160,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0.0537113, g: 0.16037738, b: 0.10763096, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -177,7 +177,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 85
+  orthographic size: 95
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -270,14 +270,15 @@ MonoBehaviour:
   roomPrefab: {fileID: 4156468448706922907, guid: 855c6ccc17d404e8493a4432e5e3293d,
     type: 3}
   roomNumber: 10
-  startColor: {r: 0.9339623, g: 0.21586865, b: 0.21586865, a: 1}
-  endColor: {r: 0.10194911, g: 0.18236585, b: 0.745283, a: 0.95686275}
+  startColor: {r: 0.0990566, g: 0.6844886, b: 1, a: 1}
+  endColor: {r: 0, g: 0.6981132, b: 0.63997495, a: 0.95686275}
   generatorPoint: {fileID: 1746680138}
   xoffset: 18
   yoffset: 9
   roomLayer:
     serializedVersion: 2
     m_Bits: 256
+  maxStep: 0
   rooms: []
 --- !u!4 &2103096255
 Transform:

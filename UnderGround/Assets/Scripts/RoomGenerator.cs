@@ -9,14 +9,11 @@ public class RoomGenerator : MonoBehaviour
     public enum Direction { up, down, left, right };
     public Direction direction;
 
-
-
-
     [Header("房間資訊")]
     public GameObject roomPrefab;
     public int roomNumber;
     public Color startColor, endColor;
-    private GameObject endRooom;
+    private GameObject endRoom;
 
     [Header("座標位置")]
     public Transform generatorPoint;
@@ -24,9 +21,16 @@ public class RoomGenerator : MonoBehaviour
     public float yoffset;
     public LayerMask roomLayer;
 
-    public List<Room> rooms = new List<Room>();
+    public int maxStep;
 
-    
+    public List<Room> rooms = new List<Room>();
+ 
+    List<GameObject> farRooms = new List<GameObject>();
+
+    List<GameObject> lessFarRooms = new List<GameObject>(); 
+
+    List<GameObject> oneWayRooms = new List<GameObject>(); 
+
     void Start()
     {
         for (int i = 0; i < roomNumber; i++)
@@ -38,21 +42,22 @@ public class RoomGenerator : MonoBehaviour
         }
         rooms[0].GetComponent<SpriteRenderer>().color = startColor;
         
-        endRooom = rooms[0].gameObject;
+        endRoom = rooms[0].gameObject;
         
         
-        //final room ?
+        //final room
 
         foreach (var room in rooms)
         {
-        //     if (room.transform.position.sqrMagnitude > endRooom.transform.position.sqrMagnitude)
+        //     if (room.transform.position.sqrMagnitude > endRoom.transform.position.sqrMagnitude)
 
         //     {
-        //         endRooom = room.gameObject;
+        //         endRoom = room.gameObject;
         //     }    
         SetupRoom(room , room.transform.position);        
          }
-        endRooom.GetComponent<SpriteRenderer>().color = endColor;
+        FindEndRoom();
+        endRoom.GetComponent<SpriteRenderer>().color = endColor;
         
     }
 
@@ -97,6 +102,48 @@ public class RoomGenerator : MonoBehaviour
         newRoom.roomRight = Physics2D.OverlapCircle(roomPosition + new Vector3(xoffset,0,0),0.2f,roomLayer);
 
         newRoom.UpdateRoom();
+    }
+
+    public void FindEndRoom()
+    {
+         //最遠房間數字
+        for (int i = 0; i < rooms.Count; i++)
+        {
+            if (rooms[i].stepToStart > maxStep)
+                maxStep = rooms[i].stepToStart;
+        }
+
+        //最遠房間跟第二遠的
+        foreach (var room in rooms)
+        {
+            if (room.stepToStart == maxStep)
+                farRooms.Add(room.gameObject);
+            if (room.stepToStart == maxStep - 1)
+                lessFarRooms.Add(room.gameObject);
+        }
+
+        for (int i = 0; i < farRooms.Count; i++)
+        {
+            if (farRooms[i].GetComponent<Room>().doorNumber == 1)
+                oneWayRooms.Add(farRooms[i]);//最遠單一出口
+        }
+
+        for (int i = 0; i < lessFarRooms.Count; i++)
+        {
+            if (lessFarRooms[i].GetComponent<Room>().doorNumber == 1)
+                oneWayRooms.Add(lessFarRooms[i]);//第二遠單一出口
+        }
+
+        if (oneWayRooms.Count != 0)
+        //超過一間單一出口
+        {
+            endRoom = oneWayRooms[Random.Range(0, oneWayRooms.Count)];
+        }
+        else
+        {
+            endRoom = farRooms[Random.Range(0, farRooms.Count)];
+        }
+
     }
     
 
